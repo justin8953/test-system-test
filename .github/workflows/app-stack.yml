@@ -11,7 +11,7 @@ jobs:
   app-build:
     name: app build
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}-app
+    environment: st-app
     steps:
       - uses: actions/checkout@v4
       - name: build
@@ -19,8 +19,9 @@ jobs:
           echo "Build app"
   app-deploy:
     name: app deploy
+    needs: app-build
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}-app
+    environment: st-app
     steps:
       - uses: actions/checkout@v4
       - name: deploy
@@ -28,10 +29,26 @@ jobs:
           echo "Deploy app"
   app-system-test:
     name: app system test
+    needs:
+      - app-build
+      - app-deploy
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}-app-system-test
+    environment: st-app-system-test
     steps:
       - uses: actions/checkout@v4
       - name: system test
         run: |
           echo "System test app"
+  slack:
+    name: slack notification
+    environment: st-app
+    needs:
+      - app-build
+      - app-deploy
+      - app-system-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: slack notification
+        run: |
+          echo "Slack notification"
