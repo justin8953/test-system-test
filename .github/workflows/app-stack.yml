@@ -1,0 +1,37 @@
+name: app-stacks
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  app-build:
+    name: app build
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}-app
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: |
+          echo "Build app"
+  app-deploy:
+    name: app deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}-app
+    steps:
+      - uses: actions/checkout@v4
+      - name: deploy
+        run: |
+          echo "Deploy app"
+  app-system-test:
+    name: app system test
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}-app-system-test
+    steps:
+      - uses: actions/checkout@v4
+      - name: system test
+        run: |
+          echo "System test app"

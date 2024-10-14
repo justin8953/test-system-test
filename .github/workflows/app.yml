@@ -1,0 +1,25 @@
+name: app
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+
+concurrency:
+  # only one workflow run at a time per branch
+  group: "${{ github.workflow }} @ ${{ github.head_ref || github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  app-dev:
+    secrets: inherit
+    uses: ./.github/workflows/app-stack.yml
+    with:
+      environment: st111
