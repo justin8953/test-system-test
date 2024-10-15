@@ -38,6 +38,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: system test
         run: |
+          echo "System test app failed"
+          exit 1
           echo "System test app"
   app-system-test-skip:
     name: app system test skip
