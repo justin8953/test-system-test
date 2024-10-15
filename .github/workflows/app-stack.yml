@@ -46,7 +46,7 @@ jobs:
       - app-deploy
       - app-system-test
     runs-on: ubuntu-latest
-    if: needs.app-system-test.result == 'failure'
+    if: always() && needs.app-system-test.result == 'failure'
     environment: st-app-system-test-skip
     steps:
       - uses: actions/checkout@v4
