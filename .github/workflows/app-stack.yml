@@ -40,6 +40,21 @@ jobs:
         run: |
           echo "System test app failed"
           exit 1
+          echo "System test app"
+  app-system-test-skip:
+    name: app system test
+    needs:
+      - app-build
+      - app-deploy
+      - app-system-test
+    runs-on: ubuntu-latest
+    if: needs.app-system-test.result == 'failure'
+    environment: st-app-system-test-skip
+    steps:
+      - uses: actions/checkout@v4
+      - name: system test skip
+        run: |
+          echo "System test app skip"
   slack:
     name: slack notification
     environment: st-app
