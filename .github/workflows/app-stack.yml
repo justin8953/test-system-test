@@ -40,7 +40,7 @@ jobs:
         run: |
           echo "System test app"
   app-system-test-skip:
-    name: app system test
+    name: app system test skip
     needs:
       - app-build
       - app-deploy
