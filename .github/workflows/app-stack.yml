@@ -40,14 +40,14 @@ jobs:
         run: |
           echo "System test app"
   app-system-test-skip:
-    name: app system test
+    name: app system test skip
     needs:
       - app-build
       - app-deploy
       - app-system-test
     runs-on: ubuntu-latest
-    if: needs.app-system-test.result == 'failure'
-    environment: st-app-system-test-skip
+    if: always()
+    environment: ${{ needs.app-system-test.result == 'failure' && 'st-app-system-test-skip' || 'st-app' }}
     steps:
       - uses: actions/checkout@v4
       - name: system test skip
